@@ -1,0 +1,67 @@
+---
+- hosts: all
+  become: true
+  vars:
+    container_name: docker_jenkins
+    container_image: jenkins/jenkins:lts-jdk17
+ 
+  tasks:
+   - name: Install aptitude using apt
+     apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
+ 
+   - name: Install required system packages
+     apt: name={{ item }} state=latest update_cache=yes
+     loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools']
+ 
+   - name: Add Docker GPG apt Key
+     apt_key:
+       url: https://download.docker.com/linux/ubuntu/gpg
+       state: present
+ 
+   - name: Add Docker Repository
+     apt_repository:
+       repo: deb https://download.docker.com/linux/ubuntu bionic stable
+       state: present
+ 
+   - name: Update apt and install docker-ce
+     apt: update_cache=yes name=docker-ce state=latest
+ 
+   - name: Install Docker Module for Python
+     pip:
+       name: docker
+ 
+   - name: Pull default Docker image
+     docker_image:
+       name: "{{ container_image }}"
+       source: pull
+
+   - name: Creates directory
+     file:
+       path: /home/ubuntu/jenkins_home
+       state: directory
+       group: ubuntu
+       owner: ubuntu
+
+   - name: Create default containers
+     docker_container:
+       name: "{{ container_name }}"
+       image: "{{ container_image }}"
+       ports:
+         - "8080:8080"
+         - "50000:50000"
+       volumes:
+        - /home/ubuntu/jenkins_home:/var/jenkins_home
+       detach: yes
+
+   #- name: Wait for the container to be 'Up'
+   #  wait_for:
+   #    port: 8080
+   #
+   #- name: Slurp hosts file
+   #  slurp:
+   #    src: /home/ubuntu/jenkins_home/secrets/initialAdminPassword
+   #  register: slurpfile
+   #
+   #- debug: msg="{{ slurpfile['content'] | b64decode }}"
+
+ 
