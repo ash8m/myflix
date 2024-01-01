@@ -1,5 +1,5 @@
 Build the docker image from the Dockerfile by running:
-$ docker build -t videoserver
+$ docker build -t videoserver .
 
 Upload the mp4 files and their thumbnails to mp4 and www/pics directories in the host so that these can be mounted on the container when it is brought up.
 
