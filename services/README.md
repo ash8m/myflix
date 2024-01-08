@@ -1,7 +1,7 @@
 # RESTful MongoDB
 
 ## security
-MongoDB is abstracted behind the RESTHeart HTTP microservice. MongoDB is spawned in a separate docker network and network access to it restricted to RESTHeart service. Access to RESTHeart microservice is secured with password based authentication. 
+MongoDB is abstracted behind the RESTHeart HTTP microservice. MongoDB is spawned in a separate docker network and network access is restricted and allowed only to RESTHeart service. Access to RESTHeart microservice is secured with password based authentication. 
 
 ## running the service
 To run RESTHeart and MongoDB, run the docker-compose file using the command:\
