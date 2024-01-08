@@ -6,6 +6,7 @@ MongoDB is abstracted behind the RESTHeart HTTP microservice. MongoDB is spawned
 ## running the service
 To run RESTHeart and MongoDB, run the docker-compose file using the command:\
 $ sudo docker compose up\
+Docker compose file is taken from the open source code provided at https://github.com/SoftInstigate/restheart/blob/master/docker-compose.yml \
 \
 The database and video collections needs to be created. This is done using the RESTHeart service.\
 Set the username and password as environmet variables. Here the default user and password is used: \
@@ -27,4 +28,6 @@ curl -i \
 --header "Authorization: Basic $AUTH" \
 --request POST \
 --data "@videos.json" \
-http://localhost:8080/videos
+http://localhost:8080/videos \
+referred from https://stackoverflow.com/questions/6408904/send-request-to-curl-with-post-data-sourced-from-a-file
+
