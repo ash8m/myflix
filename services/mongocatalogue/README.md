@@ -16,18 +16,18 @@ AUTH=$(echo -ne "$BASIC_AUTH_USER:$BASIC_AUTH_PASSWORD" | base64 --wrap 0)\
 referred from https://stackoverflow.com/a/53630834 \
 \
 Create the collection videos:\
-curl -i \\
---header "Content-Type: application/json" \\
---header "Authorization: Basic $AUTH" \\
---request PUT \\
+curl -i 
+--header "Content-Type: application/json" 
+--header "Authorization: Basic $AUTH" 
+--request PUT 
 http://localhost:8080/videos \
 \
 Insert documents:\
-curl -i \\
---header "Content-Type: application/json" \\
---header "Authorization: Basic $AUTH" \\
---request POST \\
---data "@videos.json" \\
+curl -i 
+--header "Content-Type: application/json" 
+--header "Authorization: Basic $AUTH" 
+--request POST 
+--data "@videos.json" 
 http://localhost:8080/videos \
 referred from https://stackoverflow.com/questions/6408904/send-request-to-curl-with-post-data-sourced-from-a-file
 
