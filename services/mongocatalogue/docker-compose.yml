@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  restheart:
+    image: softinstigate/restheart:7.5.2
+    environment:
+      RHO: >
+          /mclient/connection-string->"mongodb://mongodb";
+          /http-listener/host->"0.0.0.0";
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+
+  mongodb:
+    image: mongo:7.0
+    command: [ "--bind_ip_all", "--replSet", "rs0" ]
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "'if (!rs.isMaster().ismaster) { rs.initiate(); }'"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 5s
