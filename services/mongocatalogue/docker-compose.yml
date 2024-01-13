@@ -11,8 +11,7 @@ services:
       mongodb:
         condition: service_healthy
     networks:
-      - mongonetwork
-      - flasknetwork
+      - restheartnw
     ports:
       - "8080:8080"
 
@@ -20,7 +19,7 @@ services:
     image: mongo:7.0
     command: [ "--bind_ip_all", "--replSet", "rs0" ]
     networks:
-      - mongonetwork
+      - restheartnw
     healthcheck:
       test: ["CMD", "mongosh", "--quiet", "--eval", "'if (!rs.isMaster().ismaster) { rs.initiate(); }'"]
       interval: 5s
@@ -29,4 +28,4 @@ services:
       start_period: 5s
 
 networks:
-  mongonetwork:
+  restheartnw:

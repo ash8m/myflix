@@ -4,8 +4,8 @@ services:
   tfrecomm:
     image: ash8m/myflix:tfrecomm
     networks:
-      - tfrecommnetwork
+      - tfrecommnw
     command: ["python", "svd_query.py"]
 
 networks:
-  tfrecommnetwork:
+  tfrecommnw:
