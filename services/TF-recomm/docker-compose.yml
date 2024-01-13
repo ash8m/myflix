@@ -5,7 +5,8 @@ services:
     image: ash8m/myflix:tfrecomm
     networks:
       - tfrecommnw
-    command: ["python", "svd_query.py"]
+    command: ["/bin/sh", "-c", "cd /notebooks/TF-recomm && python svd_query.py"]
+
 
 networks:
   tfrecommnw:
