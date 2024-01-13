@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  tfrecomm:
+    image: ash8m/myflix:tfrecomm
+    networks:
+      - tfrecommnetwork
+    command: ["python", "svd_query.py"]
+
+networks:
+  tfrecommnetwork:

@@ -21,11 +21,13 @@ services:
       - sql-db
       - restheart
       - videoserver
+      - tfrecomm
     ports:
       - "80:5000"
     networks:
       - sqlnetwork
       - flasknetwork
+      - tfrecommnetwork
 
 networks:
   sqlnetwork:
