@@ -10,15 +10,23 @@ services:
     depends_on:
       mongodb:
         condition: service_healthy
+    networks:
+      - mongonetwork
+      - flasknetwork
     ports:
       - "8080:8080"
 
   mongodb:
     image: mongo:7.0
     command: [ "--bind_ip_all", "--replSet", "rs0" ]
+    networks:
+      - mongonetwork
     healthcheck:
       test: ["CMD", "mongosh", "--quiet", "--eval", "'if (!rs.isMaster().ismaster) { rs.initiate(); }'"]
       interval: 5s
       timeout: 10s
       retries: 5
       start_period: 5s
+
+networks:
+  mongonetwork:

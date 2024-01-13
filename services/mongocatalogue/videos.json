@@ -1,6 +1,6 @@
 [
-    {"video":{"server":1,"ip":"localhost","Name":"Big Buck Bunny","file":"bbb.mp4","thumb":"bbb-th.png","pic":"bbb.png","uuid":"380613d5-71b3-4f24-8a58-ca1a260b49d3","category":"shorts"}},
-    {"video":{"server":1,"ip":"localhost","Name":"Interview with a GNU/Linux user - Partition 1","file":"InterviewGNULinux.mp4","thumb":"InterviewGNULinux.png","pic":"InterviewGNULinux.png","uuid":"380613d5-71b3-4f24-8a58-ca1a260b49d4","category":"shorts"}},
-    {"video":{"server":1,"ip":"localhost","Name":"Carl Sagan discusses water on ancient Mars","file":"CarlSaganMars.mp4","thumb":"CarlSaganMars.png","pic":"CarlSaganMars.png","uuid":"380613d5-71b3-4f24-8a58-ca1a260b49d5","category":"shorts"}}
+    {"video":{"server":1,"ip":"localhost:8081","Name":"Big Buck Bunny","file":"bbb.mp4","thumb":"bbb-th.png","pic":"bbb.png","uuid":"380613d5-71b3-4f24-8a58-ca1a260b49d3","category":"shorts"}},
+    {"video":{"server":1,"ip":"localhost:8081","Name":"Interview with a GNU/Linux user - Partition 1","file":"InterviewGNULinux.mp4","thumb":"InterviewGNULinux.png","pic":"InterviewGNULinux.png","uuid":"380613d5-71b3-4f24-8a58-ca1a260b49d4","category":"shorts"}},
+    {"video":{"server":1,"ip":"localhost:8081","Name":"Carl Sagan discusses water on ancient Mars","file":"CarlSaganMars.mp4","thumb":"CarlSaganMars.png","pic":"CarlSaganMars.png","uuid":"380613d5-71b3-4f24-8a58-ca1a260b49d5","category":"shorts"}}
 
 ]

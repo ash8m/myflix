@@ -19,10 +19,13 @@ services:
     build: .
     depends_on:
       - sql-db
+      - restheart
+      - videoserver
     ports:
-      - "5000:5000"
+      - "80:5000"
     networks:
       - sqlnetwork
+      - flasknetwork
 
 networks:
   sqlnetwork:
