@@ -18,3 +18,7 @@ aws_keys.tfvars
 .env/
 .coverage
 .python-version
+
+# media files hosted in nginx videoserver
+.mp4
+.png
