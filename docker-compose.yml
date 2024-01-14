@@ -20,6 +20,8 @@ services:
     command: [ "--bind_ip_all", "--replSet", "rs0" ]
     networks:
       - restheartnw
+#    volumes:
+#      - ./services/mongocatalogue/data:/data/db
     healthcheck:
       test: ["CMD", "mongosh", "--quiet", "--eval", "'if (!rs.isMaster().ismaster) { rs.initiate(); }'"]
       interval: 5s
@@ -49,6 +51,8 @@ services:
       MYSQL_PORT: 3306
     networks:
       - sqlnw
+    volumes:
+      - ./services/mysql/data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       interval: 30s
