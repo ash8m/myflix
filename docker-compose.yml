@@ -1,0 +1,77 @@
+version: "3"
+
+services:
+  restheart:
+    image: softinstigate/restheart:7.5.2
+    environment:
+      RHO: >
+          /mclient/connection-string->"mongodb://mongodb";
+          /http-listener/host->"0.0.0.0";
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - restheartnw
+    ports:
+      - "8080:8080"
+
+  mongodb:
+    image: mongo:7.0
+    command: [ "--bind_ip_all", "--replSet", "rs0" ]
+    networks:
+      - restheartnw
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "'if (!rs.isMaster().ismaster) { rs.initiate(); }'"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 5s
+
+  tfrecomm:
+    image: ash8m/tfrecomm:latest
+    networks:
+      - tfrecommnw
+    command: ["/bin/sh", "-c", "cd /notebooks/TF-recomm && python svd_query.py"]
+
+  videoserver:
+    image: ash8m/videoserver:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./services/nginx-video/mp4/:/var/mp4/
+      - ./services/nginx-video/www/:/var/www/
+
+  sql-db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: users
+      MYSQL_PORT: 3306
+    networks:
+      - sqlnw
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  flask-app:
+    image: ash8m/flask-app:latest
+    depends_on:
+      - sql-db
+      - restheart
+      - videoserver
+      - tfrecomm
+    ports:
+      - "5000:5000"
+    networks:
+      - sqlnw
+      - flasknw
+      - tfrecommnw
+      - restheartnw
+
+networks:
+  tfrecommnw:
+  restheartnw:
+  sqlnw:
+  flasknw:

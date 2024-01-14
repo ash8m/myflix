@@ -2,9 +2,9 @@ version: "3"
 
 services:
   videoserver:
-    image: videoserver
+    build: .
     ports:
       - 80:80
     volumes:
-      - /home/ashish/myflix/services/nginx-video/mp4/:/var/mp4/
-      - /home/ashish/myflix/services/nginx-video/www/:/var/www/
+      - ./mp4/:/var/mp4/
+      - ./www/:/var/www/

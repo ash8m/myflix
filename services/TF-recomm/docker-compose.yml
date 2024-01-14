@@ -2,7 +2,7 @@ version: "3"
 
 services:
   tfrecomm:
-    image: ash8m/myflix:tfrecomm
+    image: ash8m/tfrecomm:latest
     networks:
       - tfrecommnw
     command: ["/bin/sh", "-c", "cd /notebooks/TF-recomm && python svd_query.py"]
