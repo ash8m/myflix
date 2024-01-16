@@ -15,7 +15,8 @@ variable "instance_type" {
 
 variable "subnet_id" {
     type = string
-    default = "subnet-0b396dd0fc129dc21"
+    default = "subnet-0be4db7ab745d234e"
+    
 }
 
 variable "elastic_ip" {
