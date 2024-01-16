@@ -1,4 +1,14 @@
 ---
+
+- name: Run command on Ansible host
+  hosts: localhost
+  tasks:
+    - name: Remove SSH key
+      local_action: 
+        module: command 
+        args: 
+          cmd: ssh-keygen -f /home/ubuntu/.ssh/known_hosts -R 44.198.29.234
+
 - hosts: all
   become: true
  
