@@ -1,0 +1,2 @@
+[ec2]
+54.167.111.40 ansible_user=ubuntu ansible_ssh_private_key_file=ubn2_22.pem
