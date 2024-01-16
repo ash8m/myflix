@@ -1,15 +1,17 @@
 ---
 - hosts: all
+  become: true
  
   tasks:
     - name: Install docker using snap
       community.general.snap:
         name: docker
+        classic: true
 
     - name: Clone the repository
       git:
         repo: https://github.com/ash8m/myflix.git
-        dest: /home/ubuntu
+        dest: /home/ubuntu/myflix
 
     - name: run docker compose
       command: docker compose up -d
@@ -23,8 +25,8 @@
         delay: 10
         timeout: 300
 
-    - name: Run a command at a specific path
-      command: add-catalogue.sh
+    - name: add catalogue to mongo using restheart
+      command: ./add-catalogue.sh
       args:
         chdir: /home/ubuntu/myflix/
 
@@ -41,6 +43,3 @@
         extra_opts: [--gzip]
 
 ...
-
-
- 
