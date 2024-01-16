@@ -4,42 +4,12 @@ provider "aws" {
   region     = "us-east-1"
 }
 
+data "aws_security_group" "existing_sg" {
+  name = var.sec_group
+}
 
-# set up your Terraform resource, which describes an infrastructure object, for the EC2 instance.  This will create the instance. Define the instance type and configure the network.
-
-resource "aws_security_group" "test_sg" {
-  name = var.sec_group_name
-  description = "allow ssh and https"
-  vpc_id = var.vpc_id
-
-  // To Allow SSH Transport
-  ingress {
-    from_port = 22
-    protocol = "tcp"
-    to_port = 22
-    cidr_blocks = ["94.175.54.63/32"]
-    description = "desk-ssh"
-  }
-
-  // To Allow Port 8080 Transport
-  ingress {
-    from_port = 8080
-    protocol = "tcp"
-    to_port = 8080
-    cidr_blocks = ["94.175.54.63/32"]
-    description = "desk-http"
-  }
-
-  egress {
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
-    cidr_blocks     = ["0.0.0.0/0"]
-  }
-
-  #lifecycle {
-  #  create_before_destroy = true
-  #}
+data "aws_eip" "existing_eip" {
+  public_ip = var.elastic_ip
 }
 
 resource "aws_instance" "ec2_instance" {
@@ -49,26 +19,21 @@ resource "aws_instance" "ec2_instance" {
     key_name = "ubn2_22"
 
   vpc_security_group_ids = [
-    aws_security_group.test_sg.id
+    data.aws_security_group.existing_sg.id
   ]
   root_block_device {
     delete_on_termination = true
-    volume_size = 30
+    volume_size = 20
     volume_type = "gp3"
   }
   tags = {
-    Name ="JENKINS"
+    Name ="web-server-2"
     Environment = "TEST"
     OS = "UBUNTU"
-    # Managed = "IAC"
   }
-
-
-  depends_on = [ aws_security_group.test_sg ]
-
-
 }
 
-output "ec2instance" {
-  value = aws_instance.ec2_instance.public_ip
+resource "aws_eip_association" "eip_assoc" {
+  instance_id   = aws_instance.ec2_instance.id
+  allocation_id = data.aws_eip.existing_eip.id
 }
