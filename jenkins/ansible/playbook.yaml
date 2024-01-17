@@ -72,12 +72,5 @@
         url: "{{ item }}"
         dest: /home/ubuntu/myflix/services/nginx-video/www/pics
       loop: "{{ thumbnail_urls }}"   
-        
-    - name: Untar the file on remote
-      unarchive:
-        src: /home/ubuntu/video-content.tar.gz
-        dest: /home/ubuntu/myflix/services/nginx-video/
-        remote_src: yes
-        extra_opts: [--gzip]
 
 ...
