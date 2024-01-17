@@ -18,6 +18,20 @@
 
 - hosts: all
   become: true
+
+  vars:
+    video_urls: 
+      - http://23.21.89.111/bbb.mp4
+      - http://23.21.89.111/InterviewGNULinux.mp4
+      - http://23.21.89.111/CarlSaganMars.mp4
+
+    thumbnail_urls:
+      - http://23.21.89.111/pics/bbb.png
+      - http://23.21.89.111/pics/bbb-th.png
+      - http://23.21.89.111/pics/InterviewGNULinux.png
+      - http://23.21.89.111/pics/CarlSaganMars.png   
+
+
  
   tasks:
     - name: Install docker using snap
@@ -47,11 +61,18 @@
       args:
         chdir: /home/ubuntu/myflix/
 
-    - name: Copy media files to remote
-      copy:
-        src: /home/ubuntu/video-content.tar.gz
-        dest: /home/ubuntu/video-content.tar.gz
-
+    - name: Download files using get_url
+      get_url:
+        url: "{{ item }}"
+        dest: /home/ubuntu/myflix/services/nginx-video/mp4
+      loop: "{{ video_urls }}"
+    
+    - name: Download files using get_url
+      get_url:
+        url: "{{ item }}"
+        dest: /home/ubuntu/myflix/services/nginx-video/www/pics
+      loop: "{{ thumbnail_urls }}"   
+        
     - name: Untar the file on remote
       unarchive:
         src: /home/ubuntu/video-content.tar.gz
