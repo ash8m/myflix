@@ -2,7 +2,7 @@
 # First, add the provider code to ensure you use the AWS provider.
 provider "aws" {
   region     = "us-east-1"
-  shared_credentials_files = ["/home/ubuntu/.aws/credentials"]
+  shared_credentials_files = ["/home/ubuntu/aws_credentials"]
 }
 
 data "aws_security_group" "existing_sg" {
