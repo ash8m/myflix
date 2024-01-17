@@ -2,6 +2,7 @@
 
 - name: Run command on Ansible host
   hosts: localhost
+  become: true
   tasks:
     - name: Remove SSH key
       local_action: 
