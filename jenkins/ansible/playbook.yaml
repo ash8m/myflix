@@ -4,11 +4,17 @@
   hosts: localhost
   become: true
   tasks:
+    - name: Check if known_hosts file exists
+      stat:
+        path: /home/ubuntu/.ssh/known_hosts
+      register: result
+
     - name: Remove SSH key
       local_action: 
         module: command 
         args: 
           cmd: ssh-keygen -f /home/ubuntu/.ssh/known_hosts -R 44.198.29.234
+      when: result.stat.exists
 
 - hosts: all
   become: true
