@@ -1,6 +1,6 @@
 FROM python:3.9
 RUN apt update
-RUN apt install  python3-dev default-libmysqlclient-dev build-essential -y
+RUN apt install  python3-dev default-libmysqlclient-dev build-essential pkg-config -y
 WORKDIR /
 RUN git clone https://github.com/ash8m/flask-login-form.git
 WORKDIR /flask-login-form
