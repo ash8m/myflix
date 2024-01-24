@@ -1,0 +1,75 @@
+pipeline {
+    agent any
+
+    environment {
+        ANSIBLE_HOST_KEY_CHECKING = 'False'
+        // from aws academy aws cli cloud access
+        AWS_ACCESS_KEY_ID = 'xxx'
+        AWS_SECRET_ACCESS_KEY = 'xx'
+        AWS_SESSION_TOKEN = 'xxx'
+    }
+
+    stages {
+        
+        stage('Checkout') {
+            steps {
+                checkout([
+                    $class: 'GitSCM', 
+                    branches: [[name: '*/main']], 
+                    doGenerateSubmoduleConfigurations: false, 
+                    extensions: [], 
+                    submoduleCfg: [], 
+                    userRemoteConfigs: [[url: 'https://github.com/ash8m/flask-login-form.git']]
+                ])
+            }
+        }        
+        
+        stage('Clone repo') {
+            steps {
+                git branch: 'main', poll: false, url: 'https://github.com/ash8m/myflix.git'
+            }
+        }
+        
+        stage('build image'){
+            steps {
+                dir('app/'){
+                    sh "sudo docker build -t ash8m/flask-app:latest . --no-cache"   
+                }
+            }
+        }
+        
+        
+
+        stage('push image'){
+            steps {
+                // dokcer login- username and token
+                sh "sudo docker login -u ash8m -p xxxx"
+                sh "sudo docker push ash8m/flask-app:latest"   
+            }
+        }
+
+        
+        stage('terraform infra in aws'){
+            steps {
+                dir('jenkins/terraform/'){
+                    sh "terraform init"
+                    sh "terraform apply --auto-approve"
+                    sleep time: 60, unit: 'SECONDS'
+                }
+            }
+        }
+        
+        stage('run ansible to deploy the app'){
+            steps {
+                dir('jenkins/ansible/'){
+                    sshagent(['jenkins-deploy']){
+                        sh "ansible-playbook -i hosts playbook.yaml"
+                    }
+                }
+            }
+        }
+        
+        
+
+    }
+}
