@@ -11,19 +11,6 @@ pipeline {
 
     stages {
         
-        stage('Checkout') {
-            steps {
-                checkout([
-                    $class: 'GitSCM', 
-                    branches: [[name: '*/main']], 
-                    doGenerateSubmoduleConfigurations: false, 
-                    extensions: [], 
-                    submoduleCfg: [], 
-                    userRemoteConfigs: [[url: 'https://github.com/ash8m/flask-login-form.git']]
-                ])
-            }
-        }        
-        
         stage('Clone repo') {
             steps {
                 git branch: 'main', poll: false, url: 'https://github.com/ash8m/myflix.git'
